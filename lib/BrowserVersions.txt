@@ -1,8 +1,0 @@
-Microsoft Internet Explorer 11.0
-JPEG,JPEG 2000, GIF, PNG 
-Chrome 41.0
-JPEG, WebP, GIF,PNG
-FireFox 37
-JPEG,GIF,PNG
-Safari 8.0
-JPEG,JPEG 2000
