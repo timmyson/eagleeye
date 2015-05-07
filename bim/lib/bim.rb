@@ -1,6 +1,6 @@
 class Bim
-	#bv is used as a shortform for 'Browser Versions'	
 	def initialize()
+		#bv is used as a shortform for 'Browser Versions'	
 		bv_path = File.join(File.dirname(__FILE__),"BrowserVersions.txt")	
 		bv_file = File.open( bv_path ,'r')
 		
