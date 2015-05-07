@@ -1,4 +1,3 @@
-[
 Chrome "Mozilla/5.0 (Windows NT 6.2; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/27.0.1453.93 Safari/537.36"
 Android_Chrome "Mozilla/5.0 (Linux; Android 2.3.3; en-us; Nexus S Build/GRI20) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/27.0.1453.93 Mobile Safari/537.36"
 IE11 "Mozilla/5.0 (Windows NT 6.3; Trident/7.0; rv:11.0) like Gecko"
