@@ -40,9 +40,7 @@ class ImgScrape
 					numImageTypes += 1
 			end
 			images[inc] = img.to_s
-			puts img.to_s
 			inc += 1
-			puts img.to_s
 		end
 		return images
 	end

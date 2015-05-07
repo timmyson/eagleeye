@@ -16,10 +16,19 @@ JPEG, WebP, GIF,PNG
 Chrome 4.0 +
 JPEG,GIF,PNG
 -------------------------------------
+Google Chrome 23.0 +
+JPEG, WebP, GIF,PNG
+-------------------------------------
+Google Chrome 4.0 +
+JPEG,GIF,PNG
+-------------------------------------
 Safari 6.0 +
 JPEG,JPEG 2000
 -------------------------------------
 FireFox 20.0 +
+JPEG,GIF,PNG,APNG
+-------------------------------------
+Mozilla FireFox 20.0 +
 JPEG,GIF,PNG,APNG
 -------------------------------------
 Opera 12.1 +
