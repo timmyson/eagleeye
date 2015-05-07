@@ -1,0 +1,27 @@
+Microsoft Internet Explorer 10.0 +
+JPEG,JPEG XR, GIF, PNG 
+-------------------------------------
+Microsoft Internet Explorer 6.0 +
+JPEG, GIF, PNG 
+-------------------------------------
+Internet Explorer 10.0 +
+JPEG,JPEG XR, GIF, PNG 
+-------------------------------------
+Internet Explorer 6.0 +
+JPEG, GIF, PNG 
+-------------------------------------
+Chrome 23.0 +
+JPEG, WebP, GIF,PNG
+-------------------------------------
+Chrome 4.0 +
+JPEG,GIF,PNG
+-------------------------------------
+Safari 6.0 +
+JPEG,JPEG 2000
+-------------------------------------
+FireFox 20.0 +
+JPEG,GIF,PNG,APNG
+-------------------------------------
+Opera 12.1 +
+JPEN,WebP,GIF,PNG
+-------------------------------------
