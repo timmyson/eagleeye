@@ -6,8 +6,12 @@ include ImageDictionaryModule
 require 'bim'
 require "../ImgScrape.rb"
 
-#read list of URL's
+
 urls = Array.new
+urls_to_images = Hash.new ("Unknown URL")
+
+
+
 File.open("./urls.txt").each_line do |url|
 	urls = urls << url.to_s.strip 
 end
@@ -15,14 +19,16 @@ end
 #run ImgScrape to scrape URL for images
 #
 
-urls_images = Hash.new ("Unknown URL")
+
 img_scraper = ImgScrape.new 
 
+puts "\nScraping webpages for images..."
+
 urls.each do |url|
-	urls_images[url] = img_scraper.get_images_from(url)
+	urls_to_images[url] = img_scraper.get_images_from(url)
 end
 
-# 'urls_images' is now populated with a hash map mapping a string(given url) 
+# 'urls_to_images' is now populated with a hash map mapping a string(given url) 
 #to an array of strings(lings to all images on a given page)
 
 #fetch various output formats (
@@ -36,7 +42,11 @@ bim = Bim.new
 #
 
 #find size and format we think the best should be
-urls_images.each do |url, imgs|
+
+# eif is short for expected image format
+images_to_eif = Hash.new # for future comparisons 
+
+urls_to_images.each do |url, imgs|
 	puts "\n----------------------------------"
 	puts "Showing image formats for :" + url.to_s
 	puts "----------------------------------"
@@ -44,6 +54,7 @@ urls_images.each do |url, imgs|
 		fetched_image = ImageDictionary.new(img_url).getSmallest(bim.get_image_formats('chrome', '30.0'))	
 		if fetched_image != nil 
 			puts "    "+fetched_image.to_s + " -- for " + img_url
+			images_to_eif[img_url] = fetched_image.to_s 
 		else
 			puts "NIL smallest image"
 		end		
@@ -51,4 +62,25 @@ urls_images.each do |url, imgs|
 end
 #
 
-#compare file size and format between the two, raise error on any discrepency
+#compare file size and format between the two  (expected smallest file zize, file size returned by user agent) , raise error on any discrepency
+#this should be done in the above loop to my undersanding 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
