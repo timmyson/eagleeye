@@ -1,10 +1,21 @@
 Microsoft Internet Explorer 11.0 
-JPEG,JPEG 2000, GIF, PNG 
-Chrome 41.0 
+JPEG,JPEG XR, GIF, PNG 
+--------------------------------
+Chrome 42.0 
 JPEG, WebP, GIF,PNG
-FireFox 37 +
-JPEG,GIF,PNG
+--------------------------------
 Safari 8.0
 JPEG,JPEG 2000
-FireFox 34 
-JPEG,GIF
+--------------------------------
+Safari 7.0
+JPEG,JPEG 2000
+--------------------------------
+Safari 6.0
+JPEG,JPEG 2000
+--------------------------------
+FireFox 37.0
+JPEG,GIF,PNG
+--------------------------------
+Opera 29.0
+JPEN,WebP,GIF,PNG
+--------------------------------

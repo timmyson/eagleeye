@@ -1,4 +1,3 @@
-
 class Bim
 	#bv is used as a shortform for 'Browser Versions'	
 	def initialize()
@@ -13,7 +12,7 @@ class Bim
 		# 	value   - Array of floats (versions that share image formats)
 		@browsers_w_ranges = Hash.new("No versions below given version accepted")
 
-		File.foreach(bv_file).each_slice(2) do |two_lines|
+		File.foreach(bv_file).each_slice(3) do |two_lines|
 			hasMultipleValues = false 
 	  		browser = two_lines[0].to_s.chomp.downcase.split(" ")
 	  		if browser[browser.size - 1] == '+' 
@@ -43,14 +42,14 @@ class Bim
 				itr += 1
 	  		end
 	  		@browser_formats[browser] = supported_formats
-	  	end 
+	  	end
 
 	end
 
 
 	public
-		# return an array of strings of the supported image 
-		# formats for a given browser and version 
+		# return an array of strings of the supported image formats for 
+		# a given browser and version, return an error string if cannot find one
 	  	def get_image_formats(browser, version)
 	  		key = ((browser.to_s.strip) + " " + (version.to_f.to_s.strip)).downcase
 	  		if @browser_formats.has_key?(key)	  			
@@ -65,13 +64,14 @@ class Bim
 		  			end
 		  		end
 		  		if latest_version == -1
-		  			return "Not in Database"
+		  			return "Not in Database(Error - no known supported version for "+ 
+		  					browser.to_s  + "(version " + version.to_s + "))"
 		  		else
 		  			desired_key = browser.to_s.strip.downcase + " " + latest_version.to_s
 		  			return @browser_formats[desired_key]
 		  		end
 		  	end
-		  	return 
+		  	return "Not in Database(Error - no known browser: " + browser.to_s + " " + version.to_f.to_s + ")"
 	  	end
 end
 
