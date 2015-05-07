@@ -20,7 +20,7 @@ module ImageDictionaryModule
 			when "image/webp"
 				@format = "webp"
 			else
-				puts "Error: content-type not recognized"
+				puts "Error: content-type not recognized: " + content_type 
 			end
 		end
 
@@ -48,13 +48,27 @@ module ImageDictionaryModule
 				
 				query_suffix = "?aki_format=#{aki_format}"
 				#TODO add output location, mkdir etc
-				curl_cmd = "curl -s -w \"\n%{http_code}\n%{content_type}\n%{size_download}\n\" #{@image_path}#{query_suffix} -o /tmp/tmp"
 
+				curl_cmd = "curl -s -w \"\n%{http_code}\n%{content_type}\n%{size_download}\n\" #{@image_path}#{query_suffix} -o /tmp/tmp"
+				# puts curl_cmd 
 				curl_output = `#{curl_cmd}`
+				
+
 
 				curl_output_array = curl_output.split
 
-				is = ImageStats.new("/tmp/tmp", curl_output_array[1], curl_output_array[2])
+				
+
+				if curl_output_array[0].chomp == '200' or curl_output_array[0].chomp == '304'
+					#puts image_path 
+					#puts curl_output 
+					is = ImageStats.new("/tmp/tmp", curl_output_array[1], curl_output_array[2])
+				else
+					#puts image_path 
+					#puts curl_output 
+					puts "Unexpected Http return, code: " + curl_output_array[0]
+					next 
+				end
 
 				@image_results << is
 

@@ -13,7 +13,6 @@ class Bim
 		@browsers_w_ranges = Hash.new("No versions below given version accepted")
 
 		File.foreach(bv_file).each_slice(3) do |two_lines|
-			hasMultipleValues = false 
 	  		browser = two_lines[0].to_s.chomp.downcase.split(" ")
 	  		if browser[browser.size - 1] == '+' 
 
