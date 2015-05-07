@@ -66,7 +66,7 @@ module ImageDictionaryModule
 				else
 					#puts image_path 
 					#puts curl_output 
-					puts "    Unexpected Http return code: " + curl_output_array[0] + " for image :" 
+					puts "    Unexpected Http return code: " + curl_output_array[0] + " for image :" + image_path
 					next 
 				end
 
