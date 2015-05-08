@@ -25,6 +25,11 @@ File.open("./lib/userAgents.txt").each_line do |ua|
 		version = version[0,version.index('.',version.index('.') + 1)]
 	end
 	browser = user_agent.browser.to_s
+
+	if browser[0] == '"'
+		browser[0] = ""
+	end
+
 	browsers << [browser,version]
 end
 
@@ -60,24 +65,40 @@ bim = Bim.new
 
 # eif is short for expected image format
 
+
+itr = 0 
+ 
 urls_to_images.each do |url, imgs|
-	browsers.each do |ua|
+	browsers.each do |browser|
 		puts "\n----------------------------------"
 		puts "Showing image formats for :" + url.to_s 
-		puts "Browser: " + ua[0] + " Version: " + ua[1]
+		puts "Browser: " + browser[0] + " Version: " + browser[1]
 		puts "----------------------------------"
+	
+
 		imgs.each do |img_url|
-			fetched_image = ImageDictionary.new(img_url).getSmallest(bim.get_image_formats(ua[0], ua[1]))	
+
+			user_agent_ret_val = user_agents[itr].fetch_img_w_ua(img_url)
+
+			fetched_image = ImageDictionary.new(img_url).getSmallest(bim.get_image_formats(browser[0], browser[1]))	
+
+			puts "----------------------------------------------------------------------------"
 			if fetched_image != nil 
 				puts "    "+fetched_image.to_s + " -- for " + img_url
+				puts "    retrieved from user agent request : " + user_agent_ret_val[1]
 			else
-				puts "NIL smallest image"
-			end		
+				puts "    NIL smallest image"
+				puts "    retrieved from user agent request : " + user_agent_ret_val[1]
+			end	
+			puts "----------------------------------------------------------------------------"
 		
 		end
+		itr += 1
 	end
 end
-#
+ 
+
+
 
 #compare file size and format between the two  (expected smallest file zize, file size returned by user agent) , raise error on any discrepency
 #this should be done in the above loop to my undersanding 
