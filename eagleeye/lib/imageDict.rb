@@ -49,7 +49,7 @@ module ImageDictionaryModule
 				query_suffix = "?aki_format=#{aki_format}"
 				#TODO add output location, mkdir etc
 
-				curl_cmd = "curl -s -w \"\n%{http_code}\n%{content_type}\n%{size_download}\n\" #{@image_path}#{query_suffix} -o /tmp/tmp"
+				curl_cmd = "curl -s -w \"\n%{http_code}\n%{content_type}\n%{size_download}\n\" #{@image_path}#{query_suffix} -o /tmp/tmp" 
 				# puts curl_cmd 
 				curl_output = `#{curl_cmd}`
 				

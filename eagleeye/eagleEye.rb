@@ -5,20 +5,35 @@ include ImageDictionaryModule
 
 require 'bim'
 require "../ImgScrape.rb"
+require "./lib/UserAgent"
 
 
 urls = Array.new
-urls_to_images = Hash.new ("Unknown URL")
+browsers = Array.new
+user_agents = Array.new 
+urls_to_images = Hash.new("Unknown URL")
 
 
+
+File.open("./lib/userAgents.txt").each_line do |ua|
+	
+	user_agent = UserAgentType.new(ua)
+	user_agents << user_agent 
+	version = user_agent.browser_version.to_s
+	
+	if version.count(".") > 1 
+		version = version[0,version.index('.',version.index('.') + 1)]
+	end
+	browser = user_agent.browser.to_s
+	browsers << [browser,version]
+end
 
 File.open("./urls.txt").each_line do |url|
-	urls = urls << url.to_s.strip 
+	urls = urls << url.strip 
 end
 
 #run ImgScrape to scrape URL for images
 #
-
 
 img_scraper = ImgScrape.new 
 
@@ -44,20 +59,22 @@ bim = Bim.new
 #find size and format we think the best should be
 
 # eif is short for expected image format
-images_to_eif = Hash.new # for future comparisons 
 
 urls_to_images.each do |url, imgs|
-	puts "\n----------------------------------"
-	puts "Showing image formats for :" + url.to_s
-	puts "----------------------------------"
-	imgs.each do |img_url|
-		fetched_image = ImageDictionary.new(img_url).getSmallest(bim.get_image_formats('chrome', '30.0'))	
-		if fetched_image != nil 
-			puts "    "+fetched_image.to_s + " -- for " + img_url
-			images_to_eif[img_url] = fetched_image.to_s 
-		else
-			puts "NIL smallest image"
-		end		
+	browsers.each do |ua|
+		puts "\n----------------------------------"
+		puts "Showing image formats for :" + url.to_s 
+		puts "Browser: " + ua[0] + " Version: " + ua[1]
+		puts "----------------------------------"
+		imgs.each do |img_url|
+			fetched_image = ImageDictionary.new(img_url).getSmallest(bim.get_image_formats(ua[0], ua[1]))	
+			if fetched_image != nil 
+				puts "    "+fetched_image.to_s + " -- for " + img_url
+			else
+				puts "NIL smallest image"
+			end		
+		
+		end
 	end
 end
 #
