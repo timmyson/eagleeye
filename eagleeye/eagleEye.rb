@@ -4,7 +4,7 @@ require_relative "./lib/imageDict.rb"
 include ImageDictionaryModule
 
 require 'bim'
-require "../ImgScrape.rb"
+require "./lib/ImgScrape.rb"
 require "./lib/UserAgent"
 
 
@@ -33,12 +33,9 @@ File.open("./lib/userAgents.txt").each_line do |ua|
 	browsers << [browser,version]
 end
 
-File.open("./urls.txt").each_line do |url|
+File.open("./lib/urls.txt").each_line do |url|
 	urls = urls << url.strip 
 end
-
-#run ImgScrape to scrape URL for images
-#
 
 img_scraper = ImgScrape.new 
 
@@ -48,60 +45,62 @@ urls.each do |url|
 	urls_to_images[url] = img_scraper.get_images_from(url)
 end
 
-# 'urls_to_images' is now populated with a hash map mapping a string(given url) 
-#to an array of strings(lings to all images on a given page)
-
-#fetch various output formats (
-#
-
 bim = Bim.new
-#chrome_latest_formats = bim.get_image_formats('chrome', '42.02311135') 
 
-#fetch image as requested by each browser
-
-#
-
-#find size and format we think the best should be
-
-# eif is short for expected image format
-
-
+fname = "output.txt"
+mismatch_log = File.open(fname,'w')
+total_mismatches = 0
 itr = 0 
- 
+print "Comparing image formats... " 
+
+browsers_done = 0
+total_browsers = browsers.size.to_f 
 urls_to_images.each do |url, imgs|
 	browsers.each do |browser|
-		puts "\n----------------------------------"
-		puts "Showing image formats for :" + url.to_s 
-		puts "Browser: " + browser[0] + " Version: " + browser[1]
-		puts "----------------------------------"
-	
-
+		tmp = browsers_done.to_f/total_browsers.to_f*100.0 
+		print "\rComparing image formats... #{tmp}%" 
+		matches = 0
+		mismatches = 0 
+		errors = 0
 		imgs.each do |img_url|
 
 			user_agent_ret_val = user_agents[itr].fetch_img_w_ua(img_url)
+			possible_formats = bim.get_image_formats(browser[0], browser[1])
+			img_dict = ImageDictionary.new(img_url)
+			fetched_image = img_dict.getSmallest(possible_formats)
+			possible_images = img_dict.getAll(possible_formats)
+			if fetched_image[0] != nil 
+				if fetched_image[0].to_s == user_agent_ret_val[1] 
+					matches += 1 
+				else
+					
+					mismatch_log.puts("Showing mismatch for image: "+img_url)
+					mismatch_log.puts("    Browser: " + browser[0] + " "+ browser[1])
+					mismatch_log.puts("    User Agent: " + user_agents[itr].user_agent)
+					mismatch_log.print("    Pool of possible Formats: ")
+					mismatch_log.print(possible_formats)
+					mismatch_log.print("\n    Pool of possible images: ")
+					mismatch_log.print(possible_images)
+					mismatch_log.puts("\n    Format expected: "+fetched_image[0])
+					mismatch_log.puts("               size: "+fetched_image[1].to_s)
+					mismatch_log.puts("    Format returned: "+user_agent_ret_val[1])
+					mismatch_log.puts("               size: "+user_agent_ret_val[2])
+					mismatch_log.puts("------------------------------------------------------------------------------------------------------------------\n")
 
-			fetched_image = ImageDictionary.new(img_url).getSmallest(bim.get_image_formats(browser[0], browser[1]))	
-
-			puts "----------------------------------------------------------------------------"
-			if fetched_image != nil 
-				puts "    "+fetched_image.to_s + " -- for " + img_url
-				puts "    retrieved from user agent request : " + user_agent_ret_val[1]
+					mismatches += 1
+					total_mismatches += 1
+				end
 			else
-				puts "    NIL smallest image"
-				puts "    retrieved from user agent request : " + user_agent_ret_val[1]
+				errors += 1
 			end	
-			puts "----------------------------------------------------------------------------"
-		
 		end
 		itr += 1
 	end
 end
- 
 
-
-
-#compare file size and format between the two  (expected smallest file zize, file size returned by user agent) , raise error on any discrepency
-#this should be done in the above loop to my undersanding 
+mismatch_log.puts("\nTOTAL MISMATCHES: "+total_mismatches.to_s)
+mismatch_log.close() 
+puts "\nDone."
 
 
 

@@ -26,5 +26,5 @@ class UserAgentType
 
 	attr_accessor :browser
 	attr_accessor :browser_version
-	
+	attr_accessor :user_agent
 end

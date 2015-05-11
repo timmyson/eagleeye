@@ -1,11 +1,11 @@
 Microsoft Internet Explorer 10.0 +
-JPEG,JPEG XR, GIF, PNG 
+JPEG,vnd.ms-photo, GIF, PNG 
 -------------------------------------
 Microsoft Internet Explorer 6.0 +
 JPEG, GIF, PNG 
 -------------------------------------
 Internet Explorer 10.0 +
-JPEG,JPEG XR, GIF, PNG 
+JPEG,vnd.ms-photo, GIF, PNG 
 -------------------------------------
 Internet Explorer 6.0 +
 JPEG, GIF, PNG 
@@ -23,7 +23,7 @@ Google Chrome 4.0 +
 JPEG,GIF,PNG
 -------------------------------------
 Safari 6.0 +
-JPEG,JPEG 2000
+JPEG,JPEG2000,gif,png
 -------------------------------------
 FireFox 20.0 +
 JPEG,GIF,PNG,APNG

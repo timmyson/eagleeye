@@ -12,9 +12,9 @@ module ImageDictionaryModule
 			when "image/jp2"
 				@format = "jpeg2000"
 			when "image/jpeg"
-				@format = "jpg"
+				@format = "jpeg"
 			when "image/vnd.ms-photo"
-				@format = "jxr"
+				@format = "vnd.ms-photo"
 			when "image/png"
 				@format = "png"
 			when "image/webp"
@@ -66,7 +66,7 @@ module ImageDictionaryModule
 				else
 					#puts image_path 
 					#puts curl_output 
-					puts "    Unexpected Http return code: " + curl_output_array[0] + " for image :" + image_path
+					#puts "    Unexpected Http return code: " + curl_output_array[0] + " for image :" + image_path
 					next 
 				end
 
@@ -92,7 +92,20 @@ module ImageDictionaryModule
 					end
 				end
 			end
-			return smallest_format
+			return [smallest_format,smallest_size]
+		end
+		def getAll(availableFormats)
+			size=0
+			format=nil
+			ret_val = Array.new 
+			@image_results.each do |image|
+				if availableFormats.include? image.format
+					size = image.content_length.to_i
+					format = image.format
+					ret_val << [format,size]
+				end
+			end
+			return ret_val 
 		end
 			
 	end
